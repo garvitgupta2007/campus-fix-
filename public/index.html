@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusFix — Smart Campus Maintenance</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="authView" class="auth-shell">
+  <div class="auth-card">
+    <div class="brand auth-brand"><div class="brand-icon">CF</div><div><h1>CampusFix</h1><span>Smart Maintenance</span></div></div>
+    <div class="auth-tabs"><button class="auth-tab active" data-auth="login">Login</button><button class="auth-tab" data-auth="register">Create account</button></div>
+
+    <form id="loginForm" class="auth-form">
+      <h2>Welcome back</h2><p>Sign in to report and track campus issues.</p>
+      <label>Email<input id="loginEmail" type="email" required value="student@sit.edu"></label>
+      <label>Password<input id="loginPassword" type="password" required value="Student@123"></label>
+      <button class="submit-btn full" type="submit">Login →</button>
+      <div class="demo-box">Demo student: <b>student@sit.edu</b> / <b>Student@123</b><br>Demo admin: <b>admin@sit.edu</b> / <b>Admin@123</b></div>
+      <div id="loginError" class="error"></div>
+    </form>
+
+    <form id="registerForm" class="auth-form hidden">
+      <h2>Create student account</h2><p>Your account lets you submit and track your own complaints.</p>
+      <label>Full name<input id="regName" required placeholder="Your name"></label>
+      <label>Email<input id="regEmail" type="email" required placeholder="student@sit.edu"></label>
+      <label>Password<input id="regPassword" type="password" minlength="6" required placeholder="At least 6 characters"></label>
+      <button class="submit-btn full" type="submit">Create account →</button>
+      <div id="registerError" class="error"></div>
+    </form>
+  </div>
+</div>
+
+<div id="appView" class="app hidden">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-icon">CF</div><div><h1>CampusFix</h1><span>Smart Maintenance</span></div></div>
+    <nav>
+      <button class="nav-item active" data-page="dashboard"><span>⌂</span> Dashboard</button>
+      <button class="nav-item" data-page="raise"><span>＋</span> Raise Complaint</button>
+      <button class="nav-item" data-page="complaints"><span>▤</span> <span id="complaintNavText">My Complaints</span></button>
+      <button class="nav-item" data-page="map"><span>⌖</span> Campus Map</button>
+      <button id="adminNav" class="nav-item hidden" data-page="admin"><span>⚙</span> Admin Panel</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="mini-card"><span class="online-dot"></span> System Online<small>Local server operational</small></div>
+      <button id="logoutBtn" class="profile-btn"><div class="avatar" id="avatar">G</div><div><b id="sideName">Student</b><small id="sideEmail">student@sit.edu</small></div><span>↪</span></button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div><p class="eyebrow">SIT CAMPUS</p><h2 id="page-title">Good morning 👋</h2></div>
+      <div class="top-actions"><button class="icon-btn">⌕</button><button class="icon-btn">♧</button><button class="new-btn" onclick="showPage('raise')">+ New Complaint</button></div>
+    </header>
+
+    <section id="dashboard" class="page active-page">
+      <div class="hero"><div><span class="pill">CAMPUS MAINTENANCE</span><h3>Keep your campus<br><strong>better, together.</strong></h3><p>Report maintenance issues in seconds and track them until they are resolved.</p><button class="hero-btn" onclick="showPage('raise')">Report an Issue <span>→</span></button></div><div class="hero-art"><div class="building b1"></div><div class="building b2"></div><div class="building b3"></div><div class="pin p1">!</div><div class="pin p2">!</div><div class="pin p3">!</div></div></div>
+      <div class="stats">
+        <div class="stat-card"><span class="stat-icon blue">▤</span><div><b id="totalCount">0</b><small>Total Complaints</small></div></div>
+        <div class="stat-card"><span class="stat-icon orange">◷</span><div><b id="progressCount">0</b><small>In Progress</small></div></div>
+        <div class="stat-card"><span class="stat-icon green">✓</span><div><b id="resolvedCount">0</b><small>Resolved</small></div></div>
+        <div class="stat-card"><span class="stat-icon red">!</span><div><b id="priorityCount">0</b><small>High Priority</small></div></div>
+      </div>
+      <div class="content-grid"><div class="panel"><div class="panel-head"><div><h4>Recent Complaints</h4><p>Latest maintenance requests</p></div><button class="text-btn" onclick="showPage('complaints')">View all →</button></div><div id="recent-list"></div></div>
+      <div class="panel"><div class="panel-head"><div><h4>Complaint Categories</h4><p>Live data from the server</p></div></div><div id="categoryBars" class="bars"></div><div class="map-preview"><div class="map-grid"></div><div class="map-label">CAMPUS MAP</div><span class="map-pin mp1">!</span><span class="map-pin mp2">!</span><span class="map-pin mp3">!</span></div></div></div>
+    </section>
+
+    <section id="raise" class="page">
+      <div class="page-heading"><span class="pill">NEW REQUEST</span><h3>Report a campus issue</h3><p>Give us a few details so the maintenance team can solve it faster.</p></div>
+      <form id="complaintForm" class="form-card" enctype="multipart/form-data">
+        <div class="form-row"><label>Complaint title<input id="title" name="title" required placeholder="e.g. Ceiling fan not working"></label><label>Category<select id="category" name="category" required><option value="">Select category</option><option>Electrical</option><option>Hostel</option><option>Plumbing</option><option>Wi-Fi / Network</option><option>Classroom</option><option>Other</option></select></label></div>
+        <div class="form-row"><label>Location<input id="location" name="location" required placeholder="e.g. Block A, Room 204"></label><label>Priority<select id="priority" name="priority"><option>Normal</option><option>High</option><option>Urgent</option></select></label></div>
+        <label>Description<textarea id="description" name="description" required placeholder="Describe the problem..."></textarea></label>
+        <label>Attach photo<div class="upload"><span>＋</span><div><b>Upload an image</b><small>PNG, JPG, WEBP or GIF up to 5 MB</small></div><input id="photo" name="photo" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></div></label>
+        <div class="form-footer"><span>🔒 Visible to authorized maintenance staff.</span><button class="submit-btn" type="submit">Submit Complaint →</button></div>
+        <div id="complaintError" class="error"></div>
+      </form>
+    </section>
+
+    <section id="complaints" class="page">
+      <div class="page-heading inline"><div><span class="pill">TRACKING</span><h3 id="complaintsHeading">My complaints</h3><p>Track every issue reported.</p></div><button class="new-btn" onclick="showPage('raise')">+ New Complaint</button></div>
+      <div class="filter-row"><input id="search" placeholder="⌕  Search complaints..."><select id="statusFilter"><option>All Status</option><option>Submitted</option><option>Under Review</option><option>Assigned</option><option>In Progress</option><option>Resolved</option><option>Closed</option></select></div>
+      <div id="all-list" class="complaint-list"></div>
+    </section>
+
+    <section id="map" class="page"><div class="page-heading"><span class="pill">PREVIEW</span><h3>Campus fault map</h3><p>Visualize reported faults on a campus blueprint.</p></div><div class="blueprint"><div class="bp-title">SIT CAMPUS • DEMO BLUEPRINT</div><div class="bp-building main-block">ACADEMIC<br>BLOCK</div><div class="bp-building hostel">HOSTEL<br>BLOCK A</div><div class="bp-building lab">LAB<br>COMPLEX</div><div class="bp-road r1"></div><div class="bp-road r2"></div><div class="fault f1">!</div><div class="fault f2">!</div><div class="fault f3">!</div><div class="legend"><b>Fault indicators</b><span><i class="dot red"></i> High priority</span><span><i class="dot orange"></i> Normal</span></div></div></section>
+
+    <section id="admin" class="page">
+      <div class="page-heading inline"><div><span class="pill">ADMIN</span><h3>Maintenance control panel</h3><p>Review complaints and update their status.</p></div></div>
+      <div id="admin-list" class="complaint-list"></div>
+    </section>
+  </main>
+</div>
+<div id="toast" class="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>

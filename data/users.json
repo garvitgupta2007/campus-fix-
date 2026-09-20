@@ -1,0 +1,18 @@
+[
+  {
+    "id": "37e6168d-6be8-40c7-83e6-3e961de043a9",
+    "name": "Campus Admin",
+    "email": "admin@sit.edu",
+    "passwordHash": "$2b$10$BIktwGhHjBncS79Bh1JNwOIoBiX/pdWkrPp6xofZSMFjUXnpUIYxW",
+    "role": "admin",
+    "createdAt": "2026-09-20T04:25:29.124Z"
+  },
+  {
+    "id": "74e79a68-4262-47f3-800f-449390cf9d98",
+    "name": "Demo Student",
+    "email": "student@sit.edu",
+    "passwordHash": "$2b$10$j22CU0v84pt6pYkWw6Y2ve6gZvTxoxSflyHJTKslDBpIgM.ZEahHq",
+    "role": "student",
+    "createdAt": "2026-09-20T04:25:29.303Z"
+  }
+]
